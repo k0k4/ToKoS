@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tor Security Router</title>
+<link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <span class="logo">🔒 Tor Security Router</span>
+    <span id="clock"></span>
+  </div>
+</header>
+
+<main>
+  <!-- ── Status Cards ─────────────────────────────── -->
+  <section class="grid-3">
+
+    <div class="card" id="card-services">
+      <h2>Services</h2>
+      <ul class="status-list">
+        <li><span class="dot" id="svc-tor"></span> Tor</li>
+        <li><span class="dot" id="svc-dnsmasq"></span> dnsmasq</li>
+        <li><span class="dot" id="svc-nginx"></span> Nginx</li>
+        <li><span class="dot" id="svc-pihole"></span> Pi-hole</li>
+        <li><span class="dot" id="svc-vpn"></span> VPN</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Tor Exit IP</h2>
+      <div class="big-value" id="tor-exit-ip">—</div>
+      <p class="hint">Current Tor circuit exit node</p>
+    </div>
+
+    <div class="card">
+      <h2>WAN State</h2>
+      <div class="big-value" id="wan-state">—</div>
+      <p class="hint" id="wan-hint"></p>
+    </div>
+
+  </section>
+
+  <!-- ── Resource Usage ───────────────────────────── -->
+  <section class="grid-2">
+
+    <div class="card">
+      <h2>CPU Usage</h2>
+      <div class="progress-wrap">
+        <div class="progress-bar" id="cpu-bar"></div>
+      </div>
+      <p class="stat-label"><span id="cpu-val">—</span>%</p>
+    </div>
+
+    <div class="card">
+      <h2>Memory Usage</h2>
+      <div class="progress-wrap">
+        <div class="progress-bar" id="mem-bar"></div>
+      </div>
+      <p class="stat-label"><span id="mem-val">—</span>% &nbsp;
+        (<span id="mem-used">—</span> / <span id="mem-total">—</span> MB)
+      </p>
+    </div>
+
+  </section>
+
+  <!-- ── Network Traffic ──────────────────────────── -->
+  <section>
+    <div class="card">
+      <h2>Network Traffic</h2>
+      <table class="net-table">
+        <thead><tr><th>Interface</th><th>Role</th><th>RX (MB)</th><th>TX (MB)</th></tr></thead>
+        <tbody id="net-tbody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ── Pi-hole Stats ────────────────────────────── -->
+  <section class="grid-3">
+    <div class="card stat-card">
+      <h2>DNS Queries Today</h2>
+      <div class="big-value" id="ph-total">—</div>
+    </div>
+    <div class="card stat-card">
+      <h2>Blocked Today</h2>
+      <div class="big-value" id="ph-blocked">—</div>
+    </div>
+    <div class="card stat-card">
+      <h2>Block Rate</h2>
+      <div class="big-value" id="ph-pct">—</div>
+    </div>
+  </section>
+
+  <!-- ── Controls ─────────────────────────────────── -->
+  <section class="grid-2">
+
+    <div class="card">
+      <h2>Tor Control</h2>
+      <button class="btn btn-primary" id="btn-new-circuit">🔄 New Circuit</button>
+      <button class="btn btn-warn"    id="btn-restart-tor">↺ Restart Tor</button>
+      <p class="feedback" id="tor-feedback"></p>
+    </div>
+
+    <div class="card">
+      <h2>WAN Management</h2>
+      <label>Primary WAN:
+        <select id="wan-select">
+          <option value="eth0">eth0 (WAN 1)</option>
+          <option value="wlan0">wlan0 (WAN 2)</option>
+        </select>
+      </label>
+      <button class="btn btn-primary" id="btn-set-wan">Apply</button>
+      <p class="feedback" id="wan-feedback"></p>
+    </div>
+
+  </section>
+
+  <!-- ── VPN Control ──────────────────────────────── -->
+  <section>
+    <div class="card">
+      <h2>VPN Control</h2>
+      <div class="vpn-row">
+        <label>Profile:
+          <select id="vpn-profile-select">
+            <option value="">— select —</option>
+          </select>
+        </label>
+        <button class="btn btn-primary" id="btn-vpn-connect">Connect</button>
+        <button class="btn btn-danger"  id="btn-vpn-disconnect">Disconnect</button>
+      </div>
+      <hr>
+      <div class="vpn-row">
+        <label>Upload profile (.conf / .ovpn):
+          <input type="file" id="vpn-file-input" accept=".conf,.ovpn">
+        </label>
+        <button class="btn btn-secondary" id="btn-vpn-upload">Upload</button>
+      </div>
+      <p class="feedback" id="vpn-feedback"></p>
+    </div>
+  </section>
+
+</main>
+
+<script src="/assets/app.js"></script>
+</body>
+</html>

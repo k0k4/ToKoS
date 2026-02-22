@@ -1,0 +1,10 @@
+*.log
+*.bak
+*.swp
+*.swo
+*~
+.DS_Store
+__pycache__/
+*.pyc
+/var/
+/tmp/

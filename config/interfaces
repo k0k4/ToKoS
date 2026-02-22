@@ -1,0 +1,37 @@
+# /etc/network/interfaces
+# Tor Security Router - Network Interface Configuration
+
+# Loopback
+auto lo
+iface lo inet loopback
+
+# --- WAN 1: Primary Internet (DHCP from modem) ---
+allow-hotplug eth0
+iface eth0 inet dhcp
+    metric 100
+
+# --- WAN 2: Secondary Internet (Wi-Fi upstream / failover) ---
+# wlan0 acts as a Wi-Fi client connecting to an upstream AP
+allow-hotplug wlan0
+iface wlan0 inet dhcp
+    metric 200
+    # wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf
+
+# --- LAN 1: Standard LAN (with Pi-hole DNS filtering) ---
+auto eth1
+iface eth1 inet static
+    address 192.168.10.1
+    netmask 255.255.255.0
+    # No gateway - this interface IS the gateway for its segment
+
+# --- LAN Tor 1: Anonymous network segment 1 ---
+auto eth2
+iface eth2 inet static
+    address 192.168.20.1
+    netmask 255.255.255.0
+
+# --- LAN Tor 2: Anonymous network segment 2 ---
+auto eth3
+iface eth3 inet static
+    address 192.168.30.1
+    netmask 255.255.255.0

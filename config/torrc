@@ -1,0 +1,45 @@
+# /etc/tor/torrc
+# Tor Security Router - Transparent Proxy Configuration
+
+# ---- Identity & Data ----
+DataDirectory /var/lib/tor
+Log notice file /var/log/tor/tor.log
+
+# ---- Control Port (for circuit management & IP queries) ----
+ControlPort 9051
+CookieAuthentication 1
+CookieAuthFile /var/run/tor/control.authcookie
+CookieAuthFileGroupReadable 1
+
+# ---- SOCKS Proxy (for local/internal use, e.g. IP queries from web UI) ----
+SocksPort 9050
+
+# ---- DNS Port (transparent DNS resolution for Tor LANs) ----
+# Listens on both Tor LAN gateway IPs
+DNSPort 192.168.20.1:9053
+DNSPort 192.168.30.1:9053
+
+# ---- Transparent Proxy Port ----
+# iptables redirects all TCP from Tor LANs to these ports
+TransPort 192.168.20.1:9040 IsolateClientAddr
+TransPort 192.168.30.1:9040 IsolateClientAddr
+
+# ---- AutoMap for .onion addresses ----
+VirtualAddrNetworkIPv4 10.192.0.0/10
+AutomapHostsOnResolve 1
+AutomapHostsSuffixes .onion,.exit
+
+# ---- Exit & Stream Isolation ----
+# IsolateClientAddr: different source IPs get different circuits (privacy)
+# This is already set per TransPort above.
+
+# ---- Exclude exit nodes in certain countries (optional - adjust as needed) ----
+# ExcludeExitNodes {XX},{YY}
+# StrictNodes 1
+
+# ---- Bandwidth (optional - remove limits if desired) ----
+# RelayBandwidthRate 0
+# RelayBandwidthBurst 0
+
+# ---- Tor is NOT a relay or bridge (client only) ----
+# Do NOT add ORPort or BridgeRelay lines unless you intend to run a relay.

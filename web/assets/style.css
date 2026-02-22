@@ -1,0 +1,196 @@
+/* ============================================================
+   Tor Security Router - Dashboard Stylesheet
+   ============================================================ */
+
+:root {
+  --bg:       #0d1117;
+  --surface:  #161b22;
+  --border:   #30363d;
+  --text:     #e6edf3;
+  --muted:    #8b949e;
+  --green:    #3fb950;
+  --red:      #f85149;
+  --yellow:   #d29922;
+  --blue:     #58a6ff;
+  --radius:   8px;
+  --font:     'Segoe UI', system-ui, sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ── Header ──────────────────────────────── */
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  position: sticky; top: 0; z-index: 10;
+}
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo { font-size: 18px; font-weight: 600; }
+
+/* ── Main layout ─────────────────────────── */
+main {
+  max-width: 1200px;
+  margin: 24px auto;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+section { display: contents; }
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .grid-3, .grid-2 { grid-template-columns: 1fr; }
+}
+
+/* ── Cards ───────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+}
+.card h2 {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+/* ── Status dots ─────────────────────────── */
+.status-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.status-list li { display: flex; align-items: center; gap: 10px; font-size: 15px; }
+.dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--muted);
+  flex-shrink: 0;
+  transition: background .3s;
+}
+.dot.active   { background: var(--green); box-shadow: 0 0 6px var(--green); }
+.dot.inactive { background: var(--red); }
+.dot.unknown  { background: var(--yellow); }
+
+/* ── Big value ───────────────────────────── */
+.big-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--blue);
+  word-break: break-all;
+}
+.hint { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+/* ── Progress bar ────────────────────────── */
+.progress-wrap {
+  height: 12px;
+  background: var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--blue);
+  border-radius: 6px;
+  transition: width .5s ease, background .5s;
+}
+.progress-bar.warn  { background: var(--yellow); }
+.progress-bar.crit  { background: var(--red); }
+.stat-label { color: var(--muted); font-size: 13px; }
+
+/* ── Network table ───────────────────────── */
+.net-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.net-table th, .net-table td {
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.net-table th { color: var(--muted); font-weight: 600; }
+.net-table tr:last-child td { border-bottom: none; }
+
+/* ── Buttons ─────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity .15s;
+  margin-right: 8px;
+  margin-top: 8px;
+}
+.btn:hover { opacity: .85; }
+.btn:active { opacity: .7; }
+.btn-primary   { background: var(--blue);   color: #000; }
+.btn-warn      { background: var(--yellow); color: #000; }
+.btn-danger    { background: var(--red);    color: #fff; }
+.btn-secondary { background: var(--border); color: var(--text); }
+
+/* ── VPN row ─────────────────────────────── */
+.vpn-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.vpn-row label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+select, input[type="file"] {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: var(--radius);
+  font-size: 13px;
+}
+hr { border: none; border-top: 1px solid var(--border); margin: 12px 0; }
+
+/* ── Feedback messages ───────────────────── */
+.feedback {
+  margin-top: 10px;
+  font-size: 13px;
+  min-height: 18px;
+  color: var(--green);
+}
+.feedback.error { color: var(--red); }
+
+/* ── Stat cards ──────────────────────────── */
+.stat-card { text-align: center; }
+.stat-card .big-value { font-size: 36px; }

@@ -1,0 +1,32 @@
+[Unit]
+Description=Tor Security Router (firewall + services orchestrator)
+Documentation=file:///opt/tor-router/INSTALL.md
+After=network.target network-online.target
+Wants=network-online.target
+
+# Ensure sub-services are stopped when this unit stops
+PartOf=tor@default.service
+PartOf=dnsmasq.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+
+# Apply firewall and start all managed services
+ExecStart=/usr/local/bin/tor-router start
+
+# On stop: halt services and flush firewall
+ExecStop=/usr/local/bin/tor-router stop
+
+# Reload = reapply firewall + restart tor/dnsmasq
+ExecReload=/usr/local/bin/tor-router restart
+
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=tor-router
+
+TimeoutStartSec=90
+TimeoutStopSec=30
+
+[Install]
+WantedBy=multi-user.target
